@@ -1,12 +1,14 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { StaticQuery, graphql } from "gatsby"
-import { GlobalStyle } from "./globalStyle"
-import { MainWrapper } from "./layoutComponents"
-import Header from "./header"
-import Footer from "./footer"
+import { GlobalStyle } from "../../styles/globalStyle"
+import { MainWrapper } from "../layoutComponents"
+import Header from "../header"
+import Footer from "../footer"
 
-const Layout = ({ children }) => (
+
+
+export const Layout = ({ children }) => (
   <StaticQuery
     query={graphql`
       query SiteTitleQuery {
@@ -19,13 +21,13 @@ const Layout = ({ children }) => (
     `}
     render={data => (
       <>
-        <GlobalStyle />
+      <GlobalStyle />
         <MainWrapper>
-          <Header siteTitle={data.site.siteMetadata.title} />
+          <Header />
           <main>{children}</main>
           <Footer />
         </MainWrapper>
-      </>
+    </>
     )}
   />
 )

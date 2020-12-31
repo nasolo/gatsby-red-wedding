@@ -1,17 +1,25 @@
 import styled from "styled-components"
+import tw from "twin.macro";
 
 export const MainWrapper = styled.div`
   margin: 0;
   display: flex;
   min-height: 100vh;
   flex-direction: column;
+
 `
 
 export const Container = styled.div`
+
   margin: 0 auto;
   max-width: 1280px;
   padding: 0px 1.0875rem;
   padding-top: 0;
+  background-color: ${({theme}) => theme.colors.blacks[9]};
+  ${tw`w-full `}
+
+  
+
 `
 export const Row = styled.div`
   display: flex;
