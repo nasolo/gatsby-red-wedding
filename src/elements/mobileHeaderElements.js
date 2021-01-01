@@ -10,8 +10,8 @@ ${tw`lg:hidden bg-transparent relative`}
 `
 
 
-export const MobileHeader = styled.div.attrs({
-    className: `mobile-header`
+export const MobileHeaderWrapper = styled.div.attrs({
+    className: `mobile-header-wrapper`
 })`
 
 ${tw`h-40`}
