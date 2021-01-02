@@ -23,7 +23,15 @@ export const MobileChatMenu = styled.div.attrs({
     className: `mobile-chat-menu`
 })`
 
-    ${tw`text-center grid grid-cols-2 text-white divide-x-2 divide-dotted w-full h-full`}
+    ${tw`
+        text-center 
+        grid 
+        grid-cols-2 
+        text-white 
+        divide-x-2 
+        divide-dotted 
+        w-full 
+        h-full`}
 
     font-size: .55rem;
     font-weight: bold;

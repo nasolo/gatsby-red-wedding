@@ -4,7 +4,7 @@ import { useWpMenues } from '../../graphql'
 import PropTypes from "prop-types"
 import { Icon } from '../'
 
-export const NavLinks = ({slug, icons, ...rest}) => {
+export const NavLinks = ({slug, className, icons, ...rest}) => {
 
 
     // import graphql menu items filted by slug
@@ -24,7 +24,7 @@ export const NavLinks = ({slug, icons, ...rest}) => {
                     <Link 
                         to={menu.url}
                         key={`${menu.id}-${menu.label}`}
-                        className={`order-${menu.order} my-auto h-1/5 py-2`}
+                        className={`order-${menu.order} ${className}`}
                     >
                         {shouldRenderIcon && icons.map(icon => {
                             return menu.url.includes(icon.url) && <Icon icon={icon.icon} className="pr-2" key={`icon-${icon.icon}`} {...rest}/>

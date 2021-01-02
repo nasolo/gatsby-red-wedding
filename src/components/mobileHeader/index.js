@@ -25,7 +25,7 @@ const [ isOpen, toggleDrawer ] = useCycle(false, true)
                 <Flex align="center" >
                   <Brand />
                   <MobileChatMenu>
-                      <NavLinks slug={"contact"} icons={menuIcons} fill="white"/>
+                      <NavLinks slug={"contact"} icons={menuIcons} fill="white" className="my-auto py-2"/>
                   </MobileChatMenu>
                     <Hamburger toggle={toggleDrawer} isOpen={isOpen}/>
                   <SideDrawer isOpen={isOpen} toggle={toggleDrawer}/>

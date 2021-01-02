@@ -95,7 +95,7 @@ return (
                                 </LinksWrapper>
 
                                     <LinksWrapper key="side-drawer-links">
-                                        <NavLinks slug={'side-drawer'}/>
+                                        <NavLinks slug={'side-drawer'} className="my-auto py-2"/>
                                     </LinksWrapper>
                                     <LinksWrapper key="social-media-links" className="self-end mt-auto">
                                             <SocialMediaLinks exclude="pinterest" size="medium" className="py-3" color="opaque"/>
