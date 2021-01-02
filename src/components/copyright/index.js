@@ -1,12 +1,11 @@
 import React from 'react'
 import { Paragraph } from '../../elements'
-import { useGetCopyrightNotice } from '../../graphql'
 
 export const Copyright = (props) => {
 
-    const msg = useGetCopyrightNotice()
+    const msg = "©2021 All Rights Reserved. Work property of individual clients.  Please do not reproduce"
 
     return (
-        <Paragraph text={msg.copyrightNotice} {...props} />
+        <Paragraph text={msg} {...props} />
     )
 }
