@@ -31,7 +31,8 @@ export const MobileChatMenu = styled.div.attrs({
         divide-x-2 
         divide-dotted 
         w-full 
-        h-full`}
+        h-full`
+    }
 
     font-size: .55rem;
     font-weight: bold;

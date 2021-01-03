@@ -5,6 +5,7 @@ import { GlobalStyle } from "../../styles/globalStyle"
 import { MainWrapper } from "../layoutComponents"
 import { Header } from '../header'
 import Footer from "../footer"
+import { Site, SiteContent } from "./style"
 
 
 
@@ -20,14 +21,16 @@ export const Layout = ({ children }) => (
       }
     `}
     render={data => (
-      <>
-      <GlobalStyle />
-        <MainWrapper>
-          <Header />
-          <main>{children}</main>
-          <Footer />
-        </MainWrapper>
-    </>
+      <Site>
+        <GlobalStyle />
+          <MainWrapper>
+            <Header />
+            <SiteContent>
+              {children}
+            </SiteContent>
+            <Footer />
+          </MainWrapper>
+      </Site>
     )}
   />
 )
