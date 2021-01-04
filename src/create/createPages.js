@@ -11,7 +11,7 @@ fragment WpBannerFragment on WpBanner {
       localFile {
         childImageSharp {
           fluid {
-            ...GatsbyImageSharpFluid
+            ...ImageSharpFluidFragment
           }
         }
       }
@@ -26,7 +26,21 @@ fragment WpBannerFragment on WpBanner {
 }
 `
 
-
+const imageSharpFluidFragment = `
+fragment ImageSharpFluidFragment on ImageSharpFluid {
+  aspectRatio
+  base64
+  originalImg
+  originalName
+  presentationHeight
+  presentationWidth
+  sizes
+  src
+  srcSet
+  srcSetWebp
+  srcWebp
+  tracedSVG
+}`
 
 const GET_PAGES = `
 query pageQuery {
@@ -56,6 +70,7 @@ query pageQuery {
 }
 
 ${bannerFragment}
+${imageSharpFluidFragment}
 
 `
 

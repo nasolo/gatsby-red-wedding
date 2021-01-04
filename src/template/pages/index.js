@@ -8,7 +8,8 @@ import { PAGE_BLOCKS } from '../../constants/blocks'
 const Page = ({pageContext }) => {
 
     //extract ACF block fields from context
-    const { page:{
+    const { page,
+            page:{
                     pageBlocks: { 
                         pageBlockFields 
                     } 
@@ -19,9 +20,7 @@ const Page = ({pageContext }) => {
 
     //component selector
     const BlockComponent = (block) => {
-        if(!block) return
-
-        switch(block.fieldGroupName){
+        switch(pageBlockFields.fieldGroupName){
             case BANNER:
                 return <Banner {...block}/>;
             default:
@@ -32,7 +31,9 @@ const Page = ({pageContext }) => {
 
     //if blocks fields exist loop through and render component
     if(pageBlockFields) {
-        return pageBlockFields.map(block => BlockComponent(block))
+        return pageBlockFields.map(block => BlockComponent())
+    }else {
+        return <ErrorComponent {...page}/>
     }
 
 }  
