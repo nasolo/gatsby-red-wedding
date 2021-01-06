@@ -28,7 +28,6 @@ export const Layout = ({ children }) => (
             <SiteContent>
               {children}
             </SiteContent>
-            <Footer />
           </MainWrapper>
       </Site>
     )}

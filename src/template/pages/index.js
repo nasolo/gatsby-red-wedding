@@ -2,6 +2,8 @@ import React from 'react'
 import Banner from '../../modules/banner'
 import ErrorComponent from '../../modules/defaultComponent'
 import { PAGE_BLOCKS } from '../../constants/blocks'
+import { Container } from '../../elements/container'
+import { PageSection } from '../style';
 
 
 
@@ -20,21 +22,36 @@ const Page = ({pageContext }) => {
 
     //component selector
     const BlockComponent = (block) => {
-        switch(pageBlockFields.fieldGroupName){
+        if(block === undefined) return <ErrorComponent {...block}/>
+
+        const { fieldGroupName, pageBanner } = block
+
+        switch(fieldGroupName){
             case BANNER:
-                return <Banner {...block}/>;
+                return <Banner {...pageBanner}/>;
             default:
-                return <ErrorComponent {...block}/>
+                return <ErrorComponent {...page}/>
         }
     }
 
 
     //if blocks fields exist loop through and render component
-    if(pageBlockFields) {
-        return pageBlockFields.map(block => BlockComponent())
-    }else {
-        return <ErrorComponent {...page}/>
+    const renderComponent = () =>{
+        if(pageBlockFields) {
+            return pageBlockFields.map(block => BlockComponent(block))
+        }else {
+            return <ErrorComponent {...page}/>
+        }
+        
     }
+
+
+    return (
+        <PageSection>
+                {renderComponent()}
+        </PageSection>
+    )
+ 
 
 }  
 
