@@ -7,40 +7,30 @@ import { PageSection } from '../style';
 
 
 
-const Page = ({pageContext }) => {
+const Page = ({pageContext:{ page, page: {
+    uri,
+    title,
+    slug,
+    id,
+    pageBlocks: { pageBlockFields }
+}} }) => {
 
-    //extract ACF block fields from context
-    const { page,
-            page:{
-                    pageBlocks: { 
-                        pageBlockFields 
-                    } 
-                }
-        } = pageContext
     const { BANNER } = PAGE_BLOCKS
 
 
-    //component selector
-    const BlockComponent = (block) => {
-        if(block === undefined) return <ErrorComponent {...block}/>
+    console.log(page)
 
-        const { fieldGroupName, pageBanner } = block
-
-        switch(fieldGroupName){
-            case BANNER:
-                return <Banner {...pageBanner}/>;
-            default:
-                return <ErrorComponent {...page}/>
-        }
-    }
-
-
-    //if blocks fields exist loop through and render component
     const renderComponent = () =>{
+        const blocks = [{
+            banners: pageBlockFields.filter(block => block.fieldGroupName === BANNER)
+        }]
+
+        console.log(blocks)
+
         if(pageBlockFields) {
-            return pageBlockFields.map(block => BlockComponent(block))
+           
         }else {
-            return <ErrorComponent {...page}/>
+            return <ErrorComponent {...uri} {...title} {...slug} {...id}/>
         }
         
     }
@@ -57,3 +47,22 @@ const Page = ({pageContext }) => {
 
 
 export default Page
+
+
+/*
+
+    const BlockComponent = (block) => {
+        if(block === undefined) return <ErrorComponent {...block}/>
+
+        const { fieldGroupName, pageBanner } = block
+
+        switch(fieldGroupName){
+            case BANNER:
+                return <Banner {...pageBanner}/>;
+            default:
+                return <ErrorComponent {...uri} {...title} {...slug} {...id}/>
+        }
+    }
+
+
+    */

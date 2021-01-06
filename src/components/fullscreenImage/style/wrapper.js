@@ -8,8 +8,9 @@ export const Wrapper = styled(Box).attrs({
 ${tw`
     absolute
     inset-0
-    h-full
+    h-screen
     w-screen
+    overflow-hidden
 `}
 
 `

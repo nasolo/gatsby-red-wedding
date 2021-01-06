@@ -1,5 +1,33 @@
 const pageTemplate = require.resolve('../template/pages')
 
+const galleryFragment = `
+
+fragment WpGalleryFragment on WpGallery {
+  page_galleries {
+    fieldGroupName
+    media {
+      mimeType
+      localFile {
+        childImageSharp {
+          fluid {
+            src
+          }
+        }
+      }
+    }
+    tags {
+      name
+      link
+      slug
+      uri
+    }
+  }
+}
+
+
+`
+
+
 const bannerFragment = `
 fragment WpBannerFragment on WpBanner {
   uri
@@ -54,6 +82,15 @@ query pageQuery {
         pageBlocks {
           fieldGroupName
           pageBlockFields {
+            ... on WpPage_Pageblocks_PageBlockFields_Gallery {
+              fieldGroupName
+              gallery {
+                ... on WpGallery {
+                  ...WpGalleryFragment
+                }
+              }
+            }
+          }
             ... on WpPage_Pageblocks_PageBlockFields_Banner {
               fieldGroupName
               pageBanner {
@@ -71,6 +108,7 @@ query pageQuery {
 
 ${bannerFragment}
 ${imageSharpFluidFragment}
+${galleryFragment}
 
 `
 
