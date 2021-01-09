@@ -1,30 +1,33 @@
 import React from 'react'
-import { Section } from '../../elements'
+import { Container, Section } from '../../elements'
 import { BannerWrapper } from './style'
-import { FullScreenImg } from '../../components'
+import { Card } from '../../components'
 
-const Banner = ({ 
-    featuredImage,
-    id,
-    pageBanners,
-    slug,
-    title,
-    uri     
-}, props) => {
+export const Banner = ({ 
+  blocks,
+  page   
+}) => {
 
-const fluid = featuredImage.node.localFile.childImageSharp.fluid
-
-console.log(fluid)
-
+const getFluidImage = (banner) => banner.featuredImage.node.localFile.childImageSharp.fluid
     return (
         <Section className="h-screen w-full h-100 relative">
-            <BannerWrapper >
-            <FullScreenImg fluid={fluid}/>
-                Page Banner
+            <BannerWrapper>
+                <Container>
+                {blocks.map(({pageBanner}, i) => {
+                    let {  page_banners } = pageBanner
+                    let card = {
+                        ...pageBanner,
+                        ...page_banners,
+                        fluid: getFluidImage(pageBanner)
+                    }
+                    return <Card {...card} key={`card-${i}-card-module`}/>
+                })}
+                </Container>
             </BannerWrapper>
+            
         </Section>
     )
 }
 
 
-export default Banner
+

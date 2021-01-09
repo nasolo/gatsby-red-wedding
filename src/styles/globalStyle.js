@@ -24,7 +24,7 @@ export const GlobalStyle = createGlobalStyle`
     flex: 1 0 auto;
     h1,h2,h3,h4,h5,h6 {
     font-family: 'Roboto Condensed', sans-serif;
-    color: #0c2340;
+    color: white;
     }
     a {
       color: #2A5DB0;

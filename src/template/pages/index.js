@@ -1,5 +1,5 @@
 import React from 'react'
-import Banner from '../../modules/banner'
+import { Banner } from '../../modules'
 import ErrorComponent from '../../modules/defaultComponent'
 import { PAGE_BLOCKS } from '../../constants/blocks'
 import { Container } from '../../elements/container'
@@ -8,30 +8,44 @@ import { PageSection } from '../style';
 
 
 const Page = ({pageContext:{ page, page: {
-    uri,
-    title,
-    slug,
-    id,
     pageBlocks: { pageBlockFields }
 }} }) => {
 
-    const { BANNER } = PAGE_BLOCKS
+    const { BANNER, GALLERY } = PAGE_BLOCKS
 
+    const isEmpty = arr => {
+        if(arr === undefined || !arr instanceof Array) return false
 
-    console.log(page)
+        return arr.length < 1
+    }
+
+    const componentSwitch = ( key, block ) => {
+        switch (key){
+            case BANNER:
+                return <Banner blocks={block} page={page}/>
+            case GALLERY:
+                return 
+            default: 
+                return <ErrorComponent {...page}/>
+        }
+    }
+
 
     const renderComponent = () =>{
-        const blocks = [{
-            banners: pageBlockFields.filter(block => block.fieldGroupName === BANNER)
-        }]
-
-        console.log(blocks)
-
-        if(pageBlockFields) {
-           
-        }else {
-            return <ErrorComponent {...uri} {...title} {...slug} {...id}/>
+        const blocks = {
+            [BANNER]: pageBlockFields.filter(block => block.fieldGroupName === BANNER),
+            [GALLERY]: pageBlockFields.filter(block => block.fieldGroupName === GALLERY)
         }
+
+    const getBlock = key => {
+        if(key === undefined) return
+        return blocks[key]
+    }
+
+       return Object.keys(blocks).map(key =>{
+           let block = getBlock(key)
+            return !isEmpty(block) && componentSwitch(key, block)
+        })
         
     }
 
@@ -47,22 +61,3 @@ const Page = ({pageContext:{ page, page: {
 
 
 export default Page
-
-
-/*
-
-    const BlockComponent = (block) => {
-        if(block === undefined) return <ErrorComponent {...block}/>
-
-        const { fieldGroupName, pageBanner } = block
-
-        switch(fieldGroupName){
-            case BANNER:
-                return <Banner {...pageBanner}/>;
-            default:
-                return <ErrorComponent {...uri} {...title} {...slug} {...id}/>
-        }
-    }
-
-
-    */

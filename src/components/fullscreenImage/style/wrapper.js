@@ -7,10 +7,12 @@ export const Wrapper = styled(Box).attrs({
 })`
 ${tw`
     absolute
-    inset-0
     h-screen
     w-screen
     overflow-hidden
+    text-white
+    z-0
+    inset-x-0
 `}
 
 `

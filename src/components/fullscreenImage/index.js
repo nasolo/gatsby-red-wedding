@@ -9,7 +9,7 @@ export const FullScreenImg = ({fluid, alt}) => {
             <Img 
                 fluid={fluid}
                 alt={alt}
-                className="h-full"
+                className="h-full w-full"
             />
         </Wrapper>
     )

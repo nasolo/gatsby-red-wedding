@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Gallery = ({ pageBanner }) => {
+export const Gallery = ({ pageBanner }) => {
 
     return (
         <div>
@@ -8,6 +8,3 @@ const Gallery = ({ pageBanner }) => {
         </div>
     )
 }
-
-
-export default Gallery

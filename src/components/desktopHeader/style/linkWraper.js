@@ -8,6 +8,9 @@ ${
     tw`
     flex
     text-left
+    text-white
+    font-bold
+    text-base
     `
 }
 

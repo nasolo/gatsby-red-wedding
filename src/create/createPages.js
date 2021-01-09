@@ -10,7 +10,7 @@ fragment WpGalleryFragment on WpGallery {
       localFile {
         childImageSharp {
           fluid {
-            src
+            ...ImageSharpFluidFragment
           }
         }
       }
@@ -38,7 +38,7 @@ fragment WpBannerFragment on WpBanner {
     node {
       localFile {
         childImageSharp {
-          fluid {
+          fluid(maxWidth: 1920, quality: 100) {
             ...ImageSharpFluidFragment
           }
         }
@@ -71,32 +71,27 @@ fragment ImageSharpFluidFragment on ImageSharpFluid {
 }`
 
 const GET_PAGES = `
-query pageQuery {
+query MyQuery {
   allWpPage {
     edges {
       node {
-        uri
-        title
-        slug
         id
+        slug
+        title
+        uri
+        isFrontPage
         pageBlocks {
-          fieldGroupName
           pageBlockFields {
-            ... on WpPage_Pageblocks_PageBlockFields_Gallery {
-              fieldGroupName
-              gallery {
-                ... on WpGallery {
-                  ...WpGalleryFragment
-                }
-              }
-            }
-          }
             ... on WpPage_Pageblocks_PageBlockFields_Banner {
               fieldGroupName
               pageBanner {
-                ... on WpBanner {
-                  ...WpBannerFragment
-                }
+                ...WpBannerFragment
+              }
+            }
+            ... on WpPage_Pageblocks_PageBlockFields_Gallery {
+              fieldGroupName
+              gallery {
+                ...WpGalleryFragment
               }
             }
           }
