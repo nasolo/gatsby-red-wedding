@@ -11,7 +11,6 @@ ${tw`
     w-screen
     overflow-hidden
     text-white
-    z-0
     inset-x-0
 `}
 

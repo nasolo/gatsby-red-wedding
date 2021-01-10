@@ -7,7 +7,6 @@ export const  SiteContent = styled.main.attrs({
 })`
     ${
         tw`
-            z-10
             relative
             flex-1
             block

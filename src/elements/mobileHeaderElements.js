@@ -14,7 +14,7 @@ export const MobileHeaderWrapper = styled.div.attrs({
     className: `mobile-header-wrapper`
 })`
 
-${tw`h-40`}
+${tw`h-40 z-50`}
 
 `
 

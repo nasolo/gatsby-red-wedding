@@ -25,6 +25,12 @@ export const GlobalStyle = createGlobalStyle`
     h1,h2,h3,h4,h5,h6 {
     font-family: 'Roboto Condensed', sans-serif;
     color: white;
+    font-weight: bold;
+    font-size: 2.5rem;
+    }
+    h4,h5,h6 {
+      font-size: 1.5rem;
+      font-weight: normal;
     }
     a {
       color: #2A5DB0;

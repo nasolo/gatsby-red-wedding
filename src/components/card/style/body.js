@@ -9,12 +9,12 @@ export const Body = styled.div.attrs({
 ${tw`
     flex-1
     p-5
-    z-50
     flex
     flex-col
     justify-end
     mb-12
     text-white
+    z-10
 `}
 
 `
