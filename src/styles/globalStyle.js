@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components"
+import { createGlobalStyle, css } from "styled-components"
 
 export const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css?family=Karla|Lato');
@@ -29,8 +29,15 @@ export const GlobalStyle = createGlobalStyle`
     font-size: 2.5rem;
     }
     h4,h5,h6 {
-      font-size: 1.5rem;
+      font-size: 1.25rem;
       font-weight: normal;
+      ${({theme}) => {
+        css`
+          ${theme.mediaQueries.lg}:{
+            font-size: 1.50rem;
+          }
+        `
+      }}
     }
     a {
       color: #2A5DB0;

@@ -9,7 +9,7 @@ export const Heading = styled.h5.attrs(props =>({
 }))`
 
 ${tw`
-    mb-1
+    mb-2
 `}
 
 `

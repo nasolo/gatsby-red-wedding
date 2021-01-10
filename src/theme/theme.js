@@ -18,7 +18,13 @@ export default {
     breakpoints,
     mediaQueries,
     fonts: {
-        main: "Roboto Condensed', sans-serif"
+        main: "Roboto Condensed', sans-serif",
+        sizes: {
+          xl: '3.5rem',
+          lg: '2.5rem',
+          md: '1.75rem',
+          sm: '1rem'
+        }
     },
       icons:{
         size: {

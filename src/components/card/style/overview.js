@@ -10,7 +10,8 @@ export const Overview = styled.p.attrs(props =>({
 
 ${tw`
     mt-0
-    mb-1
+    my-4
+    text-base
 `}
 
 `

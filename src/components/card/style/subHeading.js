@@ -9,7 +9,7 @@ export const SubHeading = styled.h5.attrs(props =>({
 }))`
 
 ${tw`
-    mb-1
+    mb-2
 `}
 
 `
