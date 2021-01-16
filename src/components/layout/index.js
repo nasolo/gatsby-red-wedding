@@ -4,8 +4,7 @@ import { StaticQuery, graphql } from "gatsby"
 import { GlobalStyle } from "../../styles/globalStyle"
 import { MainWrapper } from "../layoutComponents"
 import { Header } from '../header'
-import Footer from "../footer"
-import { Site, SiteContent, TopShadow, BottomShadow } from "./style"
+import { Site, SiteContent } from "./style"
 
 
 
@@ -25,11 +24,11 @@ export const Layout = ({ children }) => (
         <GlobalStyle />
           <MainWrapper>
             <Header />
-            <TopShadow/>
+            
             <SiteContent>
               {children}
             </SiteContent>
-            <BottomShadow />
+            
           </MainWrapper>
       </Site>
     )}

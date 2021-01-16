@@ -10,7 +10,7 @@ ${tw`
     absolute
     bottom-0
     w-full
-    h-full
+    h-2/3
    
 
 `}

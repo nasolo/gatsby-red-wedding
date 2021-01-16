@@ -12,6 +12,7 @@ ${tw`
     overflow-hidden
     text-white
     inset-x-0
+    z-0
 `}
 
 `

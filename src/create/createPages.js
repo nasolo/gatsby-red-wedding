@@ -1,5 +1,49 @@
 const pageTemplate = require.resolve('../template/pages')
 
+
+const seoFragment = `
+fragment WpPostTypeSEOFragment on WpPostTypeSEO {
+  canonical
+  cornerstone
+  focuskw
+  metaDesc
+  metaRobotsNofollow
+  metaRobotsNoindex
+  metaKeywords
+  opengraphAuthor
+  opengraphDescription
+  opengraphModifiedTime
+  opengraphPublishedTime
+  opengraphPublisher
+  opengraphSiteName
+  opengraphTitle
+  opengraphType
+  opengraphUrl
+  title
+  twitterDescription
+  twitterTitle
+  opengraphImage {
+    localFile {
+      childImageSharp {
+        fixed {
+          ...ImageSharpFixedFragment
+        }
+      }
+    }
+  }
+  twitterImage {
+    localFile {
+      childImageSharp {
+        fixed {
+          ...ImageSharpFixedFragment
+        }
+      }
+    }
+  }
+}
+
+`
+
 const galleryFragment = `
 
 fragment WpGalleryFragment on WpGallery {
@@ -70,6 +114,26 @@ fragment ImageSharpFluidFragment on ImageSharpFluid {
   tracedSVG
 }`
 
+
+const imageSharpFixedFragment = `
+
+fragment ImageSharpFixedFragment on ImageSharpFixed {
+  aspectRatio
+  base64
+  height
+  originalName
+  src
+  srcSet
+  srcSetWebp
+  srcWebp
+  tracedSVG
+  width
+}
+
+
+
+`
+
 const GET_PAGES = `
 query MyQuery {
   allWpPage {
@@ -80,6 +144,9 @@ query MyQuery {
         title
         uri
         isFrontPage
+        seo {
+          ...WpPostTypeSEOFragment
+        }
         pageBlocks {
           pageBlockFields {
             ... on WpPage_Pageblocks_PageBlockFields_Banner {
@@ -101,6 +168,8 @@ query MyQuery {
   }
 }
 
+${seoFragment}
+${imageSharpFixedFragment}
 ${bannerFragment}
 ${imageSharpFluidFragment}
 ${galleryFragment}

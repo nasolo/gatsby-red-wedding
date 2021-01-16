@@ -5,6 +5,7 @@
   "version": "0.1.0",
   "author": "Blake Noll <nollblake@gmail.com>",
   "dependencies": {
+    "@popmotion/popcorn": "^0.4.4",
     "@styled-system/theme-get": "^5.1.2",
     "autoprefixer": "^10.1.0",
     "babel-plugin-styled-components": "^1.11.1",

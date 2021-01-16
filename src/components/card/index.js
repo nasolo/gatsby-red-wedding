@@ -2,6 +2,7 @@ import React from 'react'
 import { Wrapper, Body, Heading, Title, SubHeading, Overview } from './style'
 import { FullScreenImg } from '../fullscreenImage'
 import { Container } from '../../elements'
+import { motion } from 'framer-motion'
 
 export const Card = ({
     id, 
@@ -15,9 +16,11 @@ export const Card = ({
     ...rest
 }) => {
     return (
+       
         <Wrapper 
-            key={`${id}-${title}-card`}
-            {...rest}
+        key={`${id}-${title}-card`}
+        as={motion.div}
+        {...rest}
         >
             <FullScreenImg fluid={fluid} alt={alt} key={`${id}-${title}-img`}/>
                 <Body key={`${id}-${title}-body`} >
@@ -26,7 +29,7 @@ export const Card = ({
                     <SubHeading subtitle={subHeading} />
                     <Overview overview={overview} />
                 </Body>
-            
         </Wrapper>
+       
     )
 }

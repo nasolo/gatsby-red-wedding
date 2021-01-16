@@ -1,0 +1,10 @@
+const carouselConstants = {
+
+    PAGINATE_NEXT:'PAGINATE_NEXT',
+    PAGINATE_PREV: 'PAGINATE_PREV',
+    SETACTIVEITEM: 'SETACTIVEITEM',
+    UPDATECAROUSELDATA: 'UPDATECAROUSELDATA'
+
+}
+
+export default carouselConstants
