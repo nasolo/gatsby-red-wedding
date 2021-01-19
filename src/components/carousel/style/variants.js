@@ -1,6 +1,6 @@
 
 const sliderTransition={
-    type: "spring", stiffness: 300, damping: 200, mass: 10,
+    type: "spring", mass: 10, stiffness: 300, damping: 100,
     opacity: { duration: .5 }
   }
   
@@ -18,6 +18,7 @@ export const carouselVariants = {
     center: {
      
       x: 0,
+      zIndex: 1,
       opacity: 1,
       transition: {
         ...sliderTransition
@@ -27,6 +28,7 @@ export const carouselVariants = {
       return {
         
         x: direction < 0 ? "-100%" : "100%",
+        zIndex: 0,
         opacity: 0,
         transition: {
           ...sliderTransition

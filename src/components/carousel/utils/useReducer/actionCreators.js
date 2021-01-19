@@ -15,7 +15,6 @@ export const next = state => {
 
     const payload = handleChildren({
         data,
-        index: activeIndex,
         ...nextSlide
     })
 
@@ -31,7 +30,6 @@ export const prev = state => {
 
     const payload = handleChildren({
         data,
-        index: activeIndex,
         ...previousSlide
     })
 

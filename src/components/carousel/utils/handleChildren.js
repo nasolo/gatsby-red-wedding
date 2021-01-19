@@ -23,6 +23,8 @@ export const handleChildren = ( settings ) =>{
     const carouselPageSize = pageSizeExist ? 9 : pageSize
 
 
+ 
+
     //divide pages in chunks based on the carousel page size
     const pages = chunk(data, carouselPageSize)
 

@@ -2,10 +2,10 @@ import { Drag, carouselVariants } from './style'
 import React, { useReducer } from 'react'
 import { handleChildren } from './utils/handleChildren'
 import carouselReducer from './utils/useReducer/reducer'
-import { AnimatePresence } from 'framer-motion'
+import { AnimatePresence, AnimateSharedLayout } from 'framer-motion'
 import handleOnDragEnd from './utils/handleOnDragEnd'
 import { next, prev } from './utils/useReducer/actionCreators'
-
+import { motion } from 'framer-motion'
 export const Carousel = ({
     children
 }) => {
@@ -32,16 +32,24 @@ export const Carousel = ({
         activeIndex,
     } = state
 
-
-    console.log(activeIndex)
-
      //if no react children were passed to carousel return error!
      if(!childrenExit) return <div> No react objects were passed to this carousel</div>
+    
+
+    // check if child node exists before render
+     const shouldRenderComponent = reactChildrenArray[activeIndex] === undefined
+
+    const renderComponent = () => {
+        return (
+            !shouldRenderComponent && activeSlide
+        )
+    }
 
     return (
+        
         <AnimatePresence custom={direction} initial={false} exitBeforeEnter={false}>
             <Drag
-                initial="enter"
+                initial="enter" 
                 animate="center"
                 exit="exit"
                 custom={direction}
@@ -54,10 +62,10 @@ export const Carousel = ({
                     prev: () => prev(state),
                     dispatch
                 })}
-
             >
-                {activeSlide}
+                {renderComponent()}
             </Drag>
         </AnimatePresence>
+        
     )
 }

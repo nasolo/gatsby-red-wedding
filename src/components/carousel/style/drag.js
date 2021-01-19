@@ -14,13 +14,10 @@ export const Drag = styled(motion.div).attrs(props => ({
     },
 }))`
 
-${
-    tw`
-        h-full
-        absolute
-        left-0
-        
-        
-    `
-}
+
+    height: 100%;
+    position: absolute;
+
+
+
 `
