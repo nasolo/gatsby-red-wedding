@@ -11,7 +11,7 @@ export const next = state => {
 
     if(state === undefined) return
 
-    const { data, nextSlide, activeIndex } = state
+    const { data, nextSlide } = state
 
     const payload = handleChildren({
         data,
@@ -26,7 +26,7 @@ export const prev = state => {
 
     if(state === undefined) return
 
-    const { data, previousSlide, activeIndex } = state
+    const { data, previousSlide } = state
 
     const payload = handleChildren({
         data,
@@ -36,18 +36,32 @@ export const prev = state => {
     return prevItem(payload)
 }
 
-export const setItem = (state, index) => {
+export const setItem = (state, id) => {
     if(state === undefined) return
     const {
         data,
         activeIndex
     } = state
 
-    const payload = handleChildren({
-        data,
-        index,
-        direction: activeIndex < index ? 1 : -1
-    })
+    const componentProps = data.map(item => item.props)
 
-    return setActiveItem(payload)
+    if(componentProps.length < 1) return
+
+    if(id){
+
+        const activeItemIndex = componentProps.findIndex(item => item.id === id)
+
+        if(activeItemIndex !== activeIndex) {
+
+            const payload = handleChildren({
+                data,
+                index: activeItemIndex,
+                direction: activeIndex < activeItemIndex ? 1 : -1
+            })
+    
+            return setActiveItem(payload)
+        }
+
+    }
+
 }

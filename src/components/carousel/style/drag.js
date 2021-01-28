@@ -16,7 +16,9 @@ export const Drag = styled(motion.div).attrs(props => ({
 
 
     height: 100%;
+    width: 100%;
     position: absolute;
+    z-index: 20;
 
 
 

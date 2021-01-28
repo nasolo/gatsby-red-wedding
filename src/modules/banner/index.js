@@ -1,36 +1,53 @@
-import React from 'react'
-import { Container, Section } from '../../elements'
-import { BannerWrapper } from './style'
+import React, { useState, useEffect } from 'react'
+import { Section } from '../../elements'
 import { Card, Carousel } from '../../components'
+import Indicators from './indicators'
 
-export const Banner = ({ 
-  blocks   
-}) => {
+export class Banner extends React.Component {
+    constructor(props){
+        super(props);
 
-const getFluidImage = (banner) => banner.featuredImage.node.localFile.childImageSharp.fluid
+        this.state = {controls: {}}
+    }
 
-    console.log(blocks)
 
-    return (
-        <Section className="h-screen w-full h-100 relative">
-            <BannerWrapper>
-            <Carousel>
-                
-                    {blocks.map(({pageBanner}, i) => {
+    getFluidImage = (banner) => banner.featuredImage.node.localFile.childImageSharp.fluid
+    getControls = data => {
+        if(data === undefined) return
+        
+        this.setState({
+            controls: {
+                ...data
+            }
+        })
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot){
+        console.log(this.state)
+      
+    }
+
+    render(){
+        return (
+            <Section key={`banner`}>
+                <Carousel >
+                    {this.props.blocks.map(({pageBanner}, i) => {
                         let {  page_banners } = pageBanner
                         let card = {
                             ...pageBanner,
                             ...page_banners,
-                            fluid: getFluidImage(pageBanner)
+                            fluid: this.getFluidImage(pageBanner)
                         }
-                        return <Card {...card} key={`card-${i}-card-module`}/>
+                        return (
+                            <Card {...card} key={`card-${i}-card-module`} justifyContent="end"/>
+                        )
                     })}
-                    
-                    </Carousel>
-            </BannerWrapper>
-        </Section>
-    )
+                </Carousel>
+                
+
+            
+            </Section>
+        )
+    }
 }
-
-
 

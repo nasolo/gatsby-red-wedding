@@ -1,13 +1,19 @@
-import { Drag, carouselVariants } from './style'
-import React, { useReducer } from 'react'
+import { Drag, carouselVariants, CarouselContainer } from './style'
+import React, { useEffect, useReducer } from 'react'
 import { handleChildren } from './utils/handleChildren'
 import carouselReducer from './utils/useReducer/reducer'
-import { AnimatePresence, AnimateSharedLayout } from 'framer-motion'
+import { AnimatePresence } from 'framer-motion'
 import handleOnDragEnd from './utils/handleOnDragEnd'
-import { next, prev } from './utils/useReducer/actionCreators'
-import { motion } from 'framer-motion'
+import { next, prev, setItem } from './utils/useReducer/actionCreators'
+
+
+
+
+
 export const Carousel = ({
-    children
+    children,
+    controls,
+    
 }) => {
 
     // Check if children was past to carousel
@@ -19,7 +25,7 @@ export const Carousel = ({
     //set React useReducer INIT state
     const INITSTATE = { 
         data: reactChildrenArray,
-        index: 1
+        index: 0
     }
 
     //initialize useReducer initial state
@@ -32,40 +38,49 @@ export const Carousel = ({
         activeIndex,
     } = state
 
+    console.log(direction)
+
+    //handle carousel controls
+    useEffect(() => {
+         
+        if(!controls) return
+
+        controls({
+            ...state,
+            next: () => dispatch(next(state)),
+            prev: () => dispatch(prev(state)),
+            setSlide: (index) => dispatch(setItem(state, index))
+        })
+
+     }, [activeIndex])
+
      //if no react children were passed to carousel return error!
      if(!childrenExit) return <div> No react objects were passed to this carousel</div>
-    
 
-    // check if child node exists before render
-     const shouldRenderComponent = reactChildrenArray[activeIndex] === undefined
-
-    const renderComponent = () => {
-        return (
-            !shouldRenderComponent && activeSlide
-        )
-    }
 
     return (
-        
-        <AnimatePresence custom={direction} initial={false} exitBeforeEnter={false}>
-            <Drag
-                initial="enter" 
-                animate="center"
-                exit="exit"
-                custom={direction}
-                variants={carouselVariants}
-                key={`drag-${activeIndex}`}
-                onDragEnd={(event, info) => handleOnDragEnd({
-                    event,
-                    info,
-                    next: () => next(state),
-                    prev: () => prev(state),
-                    dispatch
-                })}
-            >
-                {renderComponent()}
-            </Drag>
-        </AnimatePresence>
+       <CarouselContainer>
+            <AnimatePresence custom={activeIndex} initial={false} exitBeforeEnter={true}>
+                <Drag
+                    
+                    initial="enter" 
+                    animate="center"
+                    exit="exit"
+                    custom={direction}
+                    variants={carouselVariants}
+                    key={`drag-${activeIndex}`}
+                    onDragEnd={(event, info) => handleOnDragEnd({
+                        event,
+                        info,
+                        next: () => next(state),
+                        prev: () => prev(state),
+                        dispatch
+                    })}
+                >
+                    {activeSlide}
+                </Drag>
+            </AnimatePresence>
+        </CarouselContainer>
         
     )
 }

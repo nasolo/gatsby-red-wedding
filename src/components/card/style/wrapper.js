@@ -10,6 +10,7 @@ ${tw`
     flex
     bg-transparent
     h-full
+    container
 `}
 
 `

@@ -2,7 +2,6 @@ import React from 'react'
 import { Banner } from '../../modules'
 import ErrorComponent from '../../modules/defaultComponent'
 import { PAGE_BLOCKS } from '../../constants/blocks'
-import { Container } from '../../elements/container'
 import { PageSection } from '../style';
 
 
@@ -22,11 +21,11 @@ const Page = ({pageContext:{ page, page: {
     const componentSwitch = ( key, block ) => {
         switch (key){
             case BANNER:
-                return <Banner blocks={block} page={page}/>
+                return <Banner blocks={block} page={page} key={BANNER}/>
             case GALLERY:
                 return 
             default: 
-                return <ErrorComponent {...page}/>
+                return <ErrorComponent {...page} key={GALLERY}/>
         }
     }
 
