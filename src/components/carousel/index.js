@@ -1,86 +1,107 @@
-import { Drag, carouselVariants, CarouselContainer } from './style'
-import React, { useEffect, useReducer } from 'react'
-import { handleChildren } from './utils/handleChildren'
-import carouselReducer from './utils/useReducer/reducer'
-import { AnimatePresence } from 'framer-motion'
-import handleOnDragEnd from './utils/handleOnDragEnd'
-import { next, prev, setItem } from './utils/useReducer/actionCreators'
+import React, { useEffect, useMemo } from 'react'
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { AnimatePresence } from 'framer-motion';
 
+import PropTypes from 'prop-types';
 
-
+import { CarouselContainer } from './style'
+import { carouselVariants } from './style/variants'
+import { carouselSelector } from './utils/redux/selectors'
+import { bindedActions } from './utils/redux/actionCreators'
+import { Drag } from '../../elements';
+import handleOnDragEnd from './utils/handleOnDragEnd';
 
 
 export const Carousel = ({
     children,
-    controls,
-    
+    name = "carousel",
+    pageSize = 9,
+    exitBeforeEnter = false,
 }) => {
 
-    // Check if children was past to carousel
-    const childrenExit = React.Children.count( children ) > 0
+    //store selector in memo for reuse
+    const makeGetAllCarouselData = useMemo(carouselSelector, [])
 
-    //if children exits convert them to an Array
+    //redux dispatch
+    const dispatch = useDispatch()
+
+    //bind all actions
+    const {
+        next,
+        prev,
+        load
+    } = bindedActions(dispatch)
+
+
+   //if children exits convert them to an Array
     const reactChildrenArray = React.Children.toArray(children)
+    const childrenProps = reactChildrenArray.map(data => data.props)
+    
 
-    //set React useReducer INIT state
-    const INITSTATE = { 
-        data: reactChildrenArray,
-        index: 0
+    
+    //selector allCarouselData
+    const {
+        isLoaded,
+        activeIndex,
+        nextSlide,
+        previousSlide,
+        direction
+    } = useSelector(state => makeGetAllCarouselData(state, name), shallowEqual)
+
+
+    useEffect(() => {
+
+        //validate if the carousel is loaded by name
+        if(!isLoaded) load({
+            name,
+            isLoaded: true,
+            slides: [...childrenProps]
+        })
+        
+    },[isLoaded])
+
+
+    const handleDrag = (event, info) => handleOnDragEnd({
+        event,
+        info,
+        next: () => next({name, isLoaded, slides: childrenProps, ...nextSlide}),
+        prev: () => prev({name, isLoaded, slides: childrenProps, ...previousSlide})
+    })
+
+    const renderSlide = (index) => {
+
+        const activeSlide = reactChildrenArray[index]
+
+        const shouldRenderSlide = activeSlide === undefined
+
+        const errorSlide = <div>There is an error</div>
+
+        return shouldRenderSlide ? errorSlide : activeSlide
     }
 
-    //initialize useReducer initial state
-    const [state, dispatch] = useReducer(carouselReducer, INITSTATE, handleChildren)
-
-    //map carousel state data
-    const {
-        activeSlide,
-        direction,
-        activeIndex,
-    } = state
-
-    console.log(direction)
-
-    //handle carousel controls
-    useEffect(() => {
-         
-        if(!controls) return
-
-        controls({
-            ...state,
-            next: () => dispatch(next(state)),
-            prev: () => dispatch(prev(state)),
-            setSlide: (index) => dispatch(setItem(state, index))
-        })
-
-     }, [activeIndex])
-
-     //if no react children were passed to carousel return error!
-     if(!childrenExit) return <div> No react objects were passed to this carousel</div>
-
+    console.log(nextSlide, previousSlide)
 
     return (
        <CarouselContainer>
-            <AnimatePresence custom={activeIndex} initial={false} exitBeforeEnter={true}>
-                <Drag
-                    
-                    initial="enter" 
-                    animate="center"
-                    exit="exit"
+             <AnimatePresence custom={activeIndex} initial={false} exitBeforeEnter={exitBeforeEnter}>
+                 <Drag
                     custom={direction}
                     variants={carouselVariants}
-                    key={`drag-${activeIndex}`}
-                    onDragEnd={(event, info) => handleOnDragEnd({
-                        event,
-                        info,
-                        next: () => next(state),
-                        prev: () => prev(state),
-                        dispatch
-                    })}
-                >
-                    {activeSlide}
+                    initial="enter"
+                    animate="center"
+                    exit="exit"
+                    key={activeIndex}
+                    onDragEnd={handleDrag}
+                 >
+                    {renderSlide(activeIndex)}
                 </Drag>
-            </AnimatePresence>
-        </CarouselContainer>
-        
+           </AnimatePresence>
+       </CarouselContainer>
     )
+}
+
+
+Carousel.propTypes = {
+    children: PropTypes.isRequired,
+    name: PropTypes.string.isRequired
 }

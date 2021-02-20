@@ -7,15 +7,9 @@
 // You can delete this file if you're not using it
 import './src/styles/global.css';
 
-import React from 'react'
-import { Layout } from './src/components'
-import { ThemeProvider } from 'styled-components';
-import theme from './src/theme/theme';
+import wrapWithLayout from './wrapRootElement/wrap-page-element'
+import wrapWithProvider from './wrapRootElement/wrap-root-element'
 
-export const wrapPageElement = ({ element, props }) => {
-    return <Layout {...props}>{ element }</Layout>
-}
 
-export const wrapRootElement  = ({ element }) =>{
-    return <ThemeProvider theme={theme}>{ element }</ThemeProvider>
-}
+export const wrapPageElement = wrapWithLayout
+export const wrapRootElement = wrapWithProvider

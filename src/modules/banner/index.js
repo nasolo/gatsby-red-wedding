@@ -22,30 +22,25 @@ export class Banner extends React.Component {
         })
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot){
-        console.log(this.state)
-      
+    renderCards(){
+        return this.props.blocks.map(({pageBanner}, i) => {
+                let {  page_banners } = pageBanner
+                let card = {
+                    ...pageBanner,
+                    ...page_banners,
+                    fluid: this.getFluidImage(pageBanner)
+                }
+                return  <Card {...card} key={`card-${i}-card-module`} justifyContent="end"/>
+            })
+
     }
 
     render(){
         return (
             <Section key={`banner`}>
-                <Carousel >
-                    {this.props.blocks.map(({pageBanner}, i) => {
-                        let {  page_banners } = pageBanner
-                        let card = {
-                            ...pageBanner,
-                            ...page_banners,
-                            fluid: this.getFluidImage(pageBanner)
-                        }
-                        return (
-                            <Card {...card} key={`card-${i}-card-module`} justifyContent="end"/>
-                        )
-                    })}
+                <Carousel controls={this.getControls}>
+                    {this.renderCards()}
                 </Carousel>
-                
-
-            
             </Section>
         )
     }

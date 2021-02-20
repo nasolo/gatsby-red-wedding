@@ -22,14 +22,6 @@ const getCarouselControls = data => {
 
 const shouldRenderControls = pageControls.hasOwnProperty("currentPage")
 
-console.log(pageControls)
-
-
-if(shouldRenderControls) {
-    
-}
-
-
     return (
         <Section key={`banner`}>
             <Carousel controls={getCarouselControls}>
@@ -46,17 +38,7 @@ if(shouldRenderControls) {
                 })}
             </Carousel>
             
-            { shouldRenderControls &&
-
-                <Indicators 
-
-                    cards = {pageControls.currentPage}
-                    activeIndex = {pageControls.activeIndex}
-                    handleIndicator = {pageControls.setSlide}
-                
-                />
-
-            }
+        
         
         </Section>
     )

@@ -5,13 +5,12 @@
  */
 
 // You can delete this file if you're not using it
-const React = require("react")
-const Layout = require('./src/components/layout')
 
-exports.wrapPageElement = ({ element, props }) => {
-    return <Layout {...props}>{ element }</Layout>
-}
+require('./src/styles/global.css')
 
-exports.wrapRootElement  = ({ element }) =>{
-    return <ThemeProvider theme={theme}>{ element }</ThemeProvider>
-}
+import wrapWithLayout from './wrapRootElement/wrap-page-element'
+import wrapWithProvider from './wrapRootElement/wrap-root-element'
+
+
+export const wrapPageElement = wrapWithLayout
+export const wrapRootElement = wrapWithProvider

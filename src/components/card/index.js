@@ -86,6 +86,7 @@ export const Card = ({
     overview,
     settings,
     justifyContent,
+    overlay = true,
     ...rest
 }) => {
 
@@ -95,10 +96,14 @@ export const Card = ({
             as={motion.div} 
             {...rest} 
             key={`page-card-${id}-${alt}`}
+            initial="hidden"
+            animate="show"
+            exit="hidden"
+            
         >
            <Img fluid={fluid} alt={alt} key={`gatsby-img-${alt}`} className="h-full"/>
                <Body 
-                    overlay={true} 
+                    overlay={overlay} 
                     key={`page-body-${id}`} 
                     justifyContent={justifyContent}
                     as={motion.div}

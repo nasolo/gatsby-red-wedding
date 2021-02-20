@@ -45,6 +45,7 @@ export const handleChildren = ( settings ) =>{
         paginate,
         activeSlide,
         currentPageIndex,
+        carouselPageSize,
         currentPage,
         direction,
         nextSlide: {

@@ -4,7 +4,6 @@ const handleOnDragEnd = ( settings ) =>{
         info: {offset, velocity}, 
         next, 
         prev,
-        dispatch
     } = settings
     
     const swipeConfidenceThreshold = 1000;
@@ -14,9 +13,9 @@ const handleOnDragEnd = ( settings ) =>{
     
     
         if(isRightSwipe){
-            return dispatch(next())
+            return next()
         } else if(isLeftSwipe){
-            return dispatch(prev())
+            return prev()
         }
        
     
