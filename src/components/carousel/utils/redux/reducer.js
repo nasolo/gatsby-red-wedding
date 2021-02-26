@@ -1,5 +1,6 @@
-import { createReducer } from '@reduxjs/toolkit'
+import { createReducer, current } from '@reduxjs/toolkit'
 import { nextItem,  prevItem, setActiveItem, load } from './actions'
+import { handleChildren } from '../handleChildren'
 
 const INITSTATE = { 
     slides: [],
@@ -9,38 +10,83 @@ const INITSTATE = {
     isLoaded: false
 }
 
+const handleState = (state, action) => {
+
+    if(action.payload.name === undefined) return {
+        isLoaded: false
+    }
+
+    const { payload: { name } } = action
+    const currentState = current(state[name])
+
+    const newState = {
+        ...currentState,
+        ...handleChildren({
+            data: currentState.data,
+            ...action.payload
+        })
+    }
+
+    return newState
+
+}
+
 const carouselReducer = createReducer(INITSTATE, {
-    [nextItem]: ( state, action ) => ({
-        ...state,
-        ...action.payload
-    }),
-    [prevItem]: ( state, action ) => ({
-        ...state,
-        ...action.payload
-    }),
+    [nextItem]: ( state, action ) => {
+
+        return handleState(state, action)
+    },
+    [prevItem]: ( state, action ) => {
+
+        return handleState(state, action)
+    },
     [load]: (state, action) => ({
-        ...state,
-        ...action.payload
+        name: action.payload.name,
+        isLoaded: action.payload.isLoaded,
+        ...handleChildren({
+            data: action.payload.slides,
+            index: state.index,
+            pageSize: action.payload.pageSize === undefined ? state.pageSize : action.payload.pageSize,
+            slideDirection: state.direction
+        })
     }),
-    [setActiveItem]: ( state, action ) => ({
-        ...state,
-        ...action.payload
-    })
-})
+    [setActiveItem]: ( state, action ) => {
+
+        const { payload: { name, index }} = action
+        const currentState = current(state[name])
+
+        const { data, activeIndex } = currentState
+       
+
+        return {
+            ...currentState,
+            ...handleChildren({
+                name,
+                data,
+                index,
+                slideDirection: index > activeIndex ? 1 : -1
+            })
+        }
+
+        
+    }}
+)
 
 const carousel = createReducer(INITSTATE, builder => {
     builder
         .addCase(nextItem, (state, action) =>{
-            state[action.payload.name] = carouselReducer(state[action.name], action)
+            state[action.payload.name] = carouselReducer(state, action)
         })
         .addCase(prevItem, (state, action) =>{
-            state[action.payload.name] = carouselReducer(state[action.name], action)
+            
+            state[action.payload.name] = carouselReducer(state, action)
         })
         .addCase(setActiveItem, (state, action) =>{
-            state[action.payload.name] = carouselReducer(state[action.name], action)
+            
+            state[action.payload.name] = carouselReducer(state, action)
         })
         .addCase(load, (state, action) => {
-            state[action.payload.name] = carouselReducer(state[action.name], action)
+            state[action.payload.name] = carouselReducer(state, action)
         })
         .addDefaultCase(state => state)
 })

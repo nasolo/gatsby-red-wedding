@@ -42,7 +42,6 @@ export const handleChildren = ( settings ) =>{
         data,
         pages,
         activeIndex,
-        paginate,
         activeSlide,
         currentPageIndex,
         carouselPageSize,

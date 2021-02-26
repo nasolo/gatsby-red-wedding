@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Section } from '../../elements'
+import { Section, Container } from '../../elements'
 import { Card, Carousel } from '../../components'
 import Indicators from './indicators'
 
@@ -7,21 +7,47 @@ export class Banner extends React.Component {
     constructor(props){
         super(props);
 
-        this.state = {controls: {}}
+        this.state = {}
     }
 
+    
 
+    pageName = () => "Randy"
+  
     getFluidImage = (banner) => banner.featuredImage.node.localFile.childImageSharp.fluid
+    setSlide = (data) => {
+
+
+
+
+    }
     getControls = data => {
         if(data === undefined) return
-        
         this.setState({
-            controls: {
                 ...data
-            }
         })
     }
 
+
+
+    renderIndicators(){
+        const {currentPage, activeIndex, controls} = this.state
+
+        if(!this.state.isLoaded) return
+
+        const handleIndicator = (index) => {
+
+            const { setItem } = controls
+    
+            return controls.setItem({
+                name: this.pageName(),
+                index
+            })
+            
+        }
+
+        return < Indicators cards={currentPage} activeIndex={activeIndex} handleIndicator={handleIndicator}/>
+    }
     renderCards(){
         return this.props.blocks.map(({pageBanner}, i) => {
                 let {  page_banners } = pageBanner
@@ -36,11 +62,15 @@ export class Banner extends React.Component {
     }
 
     render(){
+
         return (
             <Section key={`banner`}>
-                <Carousel controls={this.getControls}>
+                <Carousel name={this.pageName()} controls={this.getControls}>
                     {this.renderCards()}
                 </Carousel>
+                <Container>
+                    {this.renderIndicators()}
+                </Container>
             </Section>
         )
     }

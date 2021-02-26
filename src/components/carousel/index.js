@@ -12,11 +12,13 @@ import { Drag } from '../../elements';
 import handleOnDragEnd from './utils/handleOnDragEnd';
 
 
+
 export const Carousel = ({
     children,
     name = "carousel",
     pageSize = 9,
     exitBeforeEnter = false,
+    controls
 }) => {
 
     //store selector in memo for reuse
@@ -29,6 +31,7 @@ export const Carousel = ({
     const {
         next,
         prev,
+        setItem,
         load
     } = bindedActions(dispatch)
 
@@ -40,37 +43,52 @@ export const Carousel = ({
 
     
     //selector allCarouselData
+    const carouselState = useSelector(state => makeGetAllCarouselData(state, name), shallowEqual)
+
     const {
         isLoaded,
         activeIndex,
         nextSlide,
         previousSlide,
         direction
-    } = useSelector(state => makeGetAllCarouselData(state, name), shallowEqual)
-
-
+    } = carouselState
+    
     useEffect(() => {
 
         //validate if the carousel is loaded by name
         if(!isLoaded) load({
             name,
             isLoaded: true,
+            pageSize,
             slides: [...childrenProps]
         })
+
+        if(isLoaded && controls !== undefined){
+            controls({
+                ...carouselState,
+                controls: {
+                    next,
+                    prev,
+                    setItem,
+                }
+            })
+        }
         
-    },[isLoaded])
+    },[isLoaded, activeIndex])
 
 
     const handleDrag = (event, info) => handleOnDragEnd({
         event,
         info,
-        next: () => next({name, isLoaded, slides: childrenProps, ...nextSlide}),
-        prev: () => prev({name, isLoaded, slides: childrenProps, ...previousSlide})
+        next: () => next({name, ...nextSlide}),
+        prev: () => prev({name, ...previousSlide})
     })
 
     const renderSlide = (index) => {
 
         const activeSlide = reactChildrenArray[index]
+
+                
 
         const shouldRenderSlide = activeSlide === undefined
 
@@ -79,11 +97,9 @@ export const Carousel = ({
         return shouldRenderSlide ? errorSlide : activeSlide
     }
 
-    console.log(nextSlide, previousSlide)
-
     return (
        <CarouselContainer>
-             <AnimatePresence custom={activeIndex} initial={false} exitBeforeEnter={exitBeforeEnter}>
+             <AnimatePresence custom={direction} initial={false} exitBeforeEnter={exitBeforeEnter}>
                  <Drag
                     custom={direction}
                     variants={carouselVariants}

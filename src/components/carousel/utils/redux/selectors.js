@@ -16,28 +16,8 @@ export const carouselSelector = () => {
                 isLoaded: false
             }
             
-          
-
-            const {
-                slides,
-                index,
-                direction,
-                pageSize,
-                isLoaded
-            } = carousel
-            
-            const parseCarouseState = handleChildren({
-                data: slides,
-                index,
-                slideDirection: direction,
-                carouselPageSize: pageSize
-            })
-
-            console.log(parseCarouseState)
-
             return {
-                isLoaded,
-                ...parseCarouseState
+                ...carousel
             }
 
         }
