@@ -11,7 +11,7 @@ module.exports = {
     `gatsby-plugin-sharp`,
     `gatsby-plugin-styled-components`,
     {
-      resolve: `gatsby-source-wordpress-experimental`,
+      resolve: `gatsby-source-wordpress`,
       options: {
         url: process.env.WPGRAPHQL_URL ||
         "https://wp.weddings.red/wp/graphql",

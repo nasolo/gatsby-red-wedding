@@ -14,6 +14,7 @@ const IndicatorsWrapper = styled.div.attrs({
     className: 'container-fluid' 
 })`
 
+    width: 100%;
     bottom: 2em;
     display: flex;
     justify-content: center;

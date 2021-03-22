@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 
 
 const Indicators = ({cards, activeIndex, handleIndicator}) => {
-    console.log(activeIndex)
+
     return (
         <IndicatorsWrapper >
         {cards.map((card, index) => { 
@@ -21,7 +21,7 @@ const Indicators = ({cards, activeIndex, handleIndicator}) => {
                     <Indicator 
                         key={`${card.id}_${index}`} 
                         active={active}
-                        onClick={()=>handleIndicator(index)}
+                        onClick={()=>handleIndicator(card.id)}
                     />
                 )
             })         

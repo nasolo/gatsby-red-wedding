@@ -4,7 +4,7 @@ import { Box } from '.'
 
 export const Section = styled(Box).attrs({
     className: `section`,
-    as: Section
+    as: 'section'
 })`
 
     ${

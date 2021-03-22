@@ -1,0 +1,1 @@
+export const getFluidImage = (img) => img.node.localFile.childImageSharp.fluid

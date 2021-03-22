@@ -65,16 +65,13 @@ export const Carousel = ({
 
         if(isLoaded && controls !== undefined){
             controls({
-                ...carouselState,
-                controls: {
-                    next,
-                    prev,
-                    setItem,
-                }
+                next,
+                prev,
+                setItem,
             })
         }
         
-    },[isLoaded, activeIndex])
+    },[isLoaded])
 
 
     const handleDrag = (event, info) => handleOnDragEnd({
@@ -87,8 +84,6 @@ export const Carousel = ({
     const renderSlide = (index) => {
 
         const activeSlide = reactChildrenArray[index]
-
-                
 
         const shouldRenderSlide = activeSlide === undefined
 

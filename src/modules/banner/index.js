@@ -1,78 +1,89 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
+import { shallowEqual, useSelector } from 'react-redux'
+import { carouselSelector } from './redux/selector'
 import { Section, Container } from '../../elements'
 import { Card, Carousel } from '../../components'
 import Indicators from './indicators'
 
-export class Banner extends React.Component {
-    constructor(props){
-        super(props);
 
-        this.state = {}
+
+export const Banner = (props) => {
+
+    const { page: { slug, title } } = props
+
+    //store carousel controls in state
+    const [controls, setControls] = useState({})
+
+    //fetch controls from carousel component
+    const getControls = data => {
+        if(!data) return
+        return setControls({...data})
     }
 
-    
 
-    pageName = () => "Randy"
+    //page name is store as the carousel reducer name
+    const pageName = () => {
+        
+        return title !== undefined ? title : slug
+    }
+
+    //carousel redux state selector
+    const carouselState = useSelector(state => carouselSelector(state, pageName()), shallowEqual)
   
-    getFluidImage = (banner) => banner.featuredImage.node.localFile.childImageSharp.fluid
-    setSlide = (data) => {
+    //gatsby image fluid image selector
+    const getFluidImage = (banner) => banner.featuredImage.node.localFile.childImageSharp.fluid
 
 
+    //render and handle indicators
+    const renderIndicators = () => {
+        
+        const { data, currentPage, activeIndex, isLoaded } = carouselState
 
+        const handleIndicators = (id) => {
+            if(!id) return
+            const { setItem } = controls 
+            const index = data.findIndex(item => item.id && item.id === id)
 
-    }
-    getControls = data => {
-        if(data === undefined) return
-        this.setState({
-                ...data
-        })
-    }
-
-
-
-    renderIndicators(){
-        const {currentPage, activeIndex, controls} = this.state
-
-        if(!this.state.isLoaded) return
-
-        const handleIndicator = (index) => {
-
-            const { setItem } = controls
-    
-            return controls.setItem({
-                name: this.pageName(),
+            return setItem({
+                name: pageName(),
                 index
             })
-            
         }
 
-        return < Indicators cards={currentPage} activeIndex={activeIndex} handleIndicator={handleIndicator}/>
+        if(!isLoaded) return
+
+
+        return < Indicators cards={currentPage} activeIndex={activeIndex} handleIndicator={handleIndicators}/>
     }
-    renderCards(){
-        return this.props.blocks.map(({pageBanner}, i) => {
+
+
+    const renderChevrons = () => {}
+
+
+
+    const renderCards = () => {
+        return props.blocks.map(({pageBanner}, i) => {
                 let {  page_banners } = pageBanner
                 let card = {
                     ...pageBanner,
                     ...page_banners,
-                    fluid: this.getFluidImage(pageBanner)
+                    fluid: getFluidImage(pageBanner)
                 }
                 return  <Card {...card} key={`card-${i}-card-module`} justifyContent="end"/>
             })
 
     }
 
-    render(){
-
+        
         return (
-            <Section key={`banner`}>
-                <Carousel name={this.pageName()} controls={this.getControls}>
-                    {this.renderCards()}
+            <Section key={slug}>
+                <Carousel name={pageName()} controls={getControls}>
+                    {renderCards()}
                 </Carousel>
                 <Container>
-                    {this.renderIndicators()}
+                    {renderIndicators()}
                 </Container>
             </Section>
         )
-    }
 }
 

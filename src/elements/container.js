@@ -6,7 +6,11 @@ export const Container = styled.div.attrs({
     className: `site-container`
 })`
 
-${tw`container mx-auto px-4`}
+${tw`
+    container 
+    mx-auto 
+    px-4
+    `}
 
 
 `

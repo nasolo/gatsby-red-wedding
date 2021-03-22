@@ -49,21 +49,25 @@ const galleryFragment = `
 fragment WpGalleryFragment on WpGallery {
   page_galleries {
     fieldGroupName
-    media {
-      mimeType
-      localFile {
-        childImageSharp {
-          fluid {
-            ...ImageSharpFluidFragment
+    gallery {
+      media {
+        mimeType
+        mediaItemUrl
+        id
+        localFile {
+          childImageSharp {
+            fluid {
+              ...ImageSharpFluidFragment
+            }
           }
         }
       }
-    }
-    tags {
-      name
-      link
-      slug
-      uri
+      tags {
+        name
+        link
+        id
+        uri
+      }
     }
   }
 }
@@ -201,7 +205,7 @@ module.exports = async ({graphql, actions, reporter}) => {
          /** Kick off our `fetchPages` method which will get us all
         * the pages we need to create individual pages. */
         await fetchPages().then(({ data }) => {
-            
+
             data.allWpPage.edges.forEach(({node}) => {
 
                 let pagePath = `${node.uri}`

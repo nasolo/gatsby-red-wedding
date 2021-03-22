@@ -1,6 +1,4 @@
 import { createSelector } from 'reselect'
-import { handleChildren } from '../handleChildren'
-
 
 const getCarouselState = state => state.carousel
 
