@@ -7,15 +7,17 @@ import { getPageBlocks } from '../../utils'
 
 
 const Page = ({pageContext:{ page, page: {
-    pageBlocks: { pageBlockFields }
+    pageBlocks: { pageBlockFields },
+    gallery_filters_tags
 }} }) => {
 
 
+    console.log(gallery_filters_tags)
     
     const { BANNER, GALLERY } = PAGE_BLOCKS
     
-    getPageBlocks(pageBlockFields)
-    
+    const acfBlocks = getPageBlocks(pageBlockFields)
+ 
     const isEmpty = arr => {
         if(arr === undefined || !arr instanceof Array) return true
 
@@ -23,34 +25,31 @@ const Page = ({pageContext:{ page, page: {
     }
 
     const componentSwitch = ( key, block ) => {
+
         switch (key){
             case BANNER:
-                return <Banner blocks={block} page={page} key={BANNER}/>
+                return <Banner blocks={block} page={page} fieldName={BANNER} key={BANNER}/>
             case GALLERY: 
-                return <Gallery blocks={block} page={page} key={GALLERY}/>
+                return <Gallery filters={gallery_filters_tags} blocks={block} page={page} fieldName={GALLERY} key={GALLERY}/>
             default: 
                 return <ErrorComponent {...page} key={GALLERY}/>
         }
     }
 
 
-    const renderComponent = () =>{
-        const blocks = {
-            [BANNER]: pageBlockFields.filter(block => block.fieldGroupName === BANNER),
-            [GALLERY]: pageBlockFields.filter(block => block.fieldGroupName === GALLERY)
-        }
-
-    const getBlock = key => {
-        if(key === undefined) return
-        return blocks[key]
-    }
-
-       return Object.keys(blocks).map(key =>{
-           let block = getBlock(key)
-           
-            return !isEmpty(block) && componentSwitch(key, block)
-        })
+    const renderComponent = () => {
         
+        const pageBlocks = []
+
+        for(const prop in acfBlocks){
+            if(!isEmpty(acfBlocks[prop])){
+                pageBlocks.push(componentSwitch(prop, acfBlocks[prop]) )
+            }
+
+        }
+        
+        return pageBlocks
+
     }
 
 
@@ -63,5 +62,6 @@ const Page = ({pageContext:{ page, page: {
 
 }  
 
+//
 
 export default Page

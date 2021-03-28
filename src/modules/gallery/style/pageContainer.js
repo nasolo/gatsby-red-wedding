@@ -14,6 +14,7 @@ ${
         w-full
         h-full
         justify-end
+        
     
     `
 }

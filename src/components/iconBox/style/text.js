@@ -1,12 +1,22 @@
 import styled from 'styled-components'
-import tw from 'twin.macro'
+import { Box } from '../../../elements'
 
 
 
 
-export const MediaText = styled.p.attrs({
+
+export const MediaText = styled(Box).attrs(props => ({
+    as: 'p',
     className: 'media-box-text',
-})`
+    children: props.description
+}))`
+
 
 
 `
+
+MediaText.defaultProps = {
+    mt: 0
+}
+
+

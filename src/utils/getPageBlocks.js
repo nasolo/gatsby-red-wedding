@@ -42,27 +42,45 @@ const parseGalleryNode = node => {
 }
 
 
+const blockSwitch = (block, key) => {
+
+    switch (key) {
+        case GALLERY:
+            
+            return parseGalleryNode(block)
+
+        case BANNER:
+
+            return parseBannerNode(block)
+
+        default:
+            return block
+    }
+}
+
 
 
 export const getPageBlocks = blocks => {
 
     if(!blocks instanceof Array) return false
     const blockFieldKeys = Object.keys(PAGE_BLOCKS)
-    const pageBlocks = []
+    
+    
+    const pageBlocks = blockFieldKeys.reduce((obj, val) =>{
+        
+        let key = PAGE_BLOCKS[val]       
+        let filteredBlocks = blocks.filter(val => val.fieldGroupName === key)
 
-    
-    const filterBlockFields = fieldGroupName => blocks.filter(block => block.fieldGroupName === fieldGroupName)
-    const filteredBlockFields = blockFieldKeys.map(block => filterBlockFields(PAGE_BLOCKS[block]))
-    
-    filteredBlockFields.forEach((block, i) => {
-    
-    })
+        if(!obj[key]){
+            obj[key] = []
+        }
 
-    
+        obj[key] = blockSwitch(filteredBlocks, key)
+        
+        return obj
+
+    },{})
 
     return pageBlocks
-
-    
-
     
 }

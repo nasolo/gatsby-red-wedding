@@ -8,5 +8,14 @@ export const MediaBody = styled.div.attrs({
     className: 'media-box-body',
 })`
 
+${
+    tw`
+        m-auto
+        flex-auto
+        w-full
+        
+    
+    `
+}
 
 `

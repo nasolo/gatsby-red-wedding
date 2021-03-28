@@ -11,6 +11,7 @@ export const Media = styled.div.attrs({
            
             flex
             items-start
+            z-10
 
         `
     }

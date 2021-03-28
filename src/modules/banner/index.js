@@ -9,7 +9,13 @@ import Indicators from './indicators'
 
 export const Banner = (props) => {
 
-    const { page: { slug, title } } = props
+    const { 
+        blocks,
+        fieldName,
+        page: { slug, title } 
+    } = props
+
+    
 
     //store carousel controls in state
     const [controls, setControls] = useState({})
@@ -31,7 +37,7 @@ export const Banner = (props) => {
     const carouselState = useSelector(state => carouselSelector(state, pageName()), shallowEqual)
   
     //gatsby image fluid image selector
-    const getFluidImage = (banner) => banner.featuredImage.node.localFile.childImageSharp.fluid
+    
 
 
     //render and handle indicators
@@ -62,21 +68,21 @@ export const Banner = (props) => {
 
 
     const renderCards = () => {
-        return props.blocks.map(({pageBanner}, i) => {
-                let {  page_banners } = pageBanner
-                let card = {
-                    ...pageBanner,
-                    ...page_banners,
-                    fluid: getFluidImage(pageBanner)
-                }
-                return  <Card {...card} key={`card-${i}-card-module`} justifyContent="end"/>
-            })
+        
+        if(blocks === undefined) return <div>Error Component</div>
+
+        const cards = blocks.map((card, i) => 
+            <Card {...card} key={`card-${i}-card-module`} justifyContent="end"/>
+        )
+
+        return cards
+
 
     }
 
         
         return (
-            <Section key={slug}>
+            <Section key={`${slug}-${fieldName}`} bg={`black`}>
                 <Carousel name={pageName()} controls={getControls}>
                     {renderCards()}
                 </Carousel>

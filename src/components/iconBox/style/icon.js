@@ -9,5 +9,5 @@ export const SVG = styled.div.attrs({
     as: Icon
 })`
 
-
+    
 `

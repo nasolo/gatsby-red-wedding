@@ -134,7 +134,19 @@ fragment ImageSharpFixedFragment on ImageSharpFixed {
   width
 }
 
+`
 
+const galleryFiltersFragments = `
+  fragment WpPage_GalleryFiltersTagsFragment on WpPage_GalleryFiltersTags {
+    fieldGroupName
+    filters {
+      fieldGroupName
+      filterOptions
+      heading
+      icon
+      order
+    }
+  }
 
 `
 
@@ -148,6 +160,11 @@ query MyQuery {
         title
         uri
         isFrontPage
+
+        gallery_filters_tags {
+          ...WpPage_GalleryFiltersTagsFragment
+        }
+
         seo {
           ...WpPostTypeSEOFragment
         }
@@ -172,6 +189,7 @@ query MyQuery {
   }
 }
 
+${galleryFiltersFragments}
 ${seoFragment}
 ${imageSharpFixedFragment}
 ${bannerFragment}

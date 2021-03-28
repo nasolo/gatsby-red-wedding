@@ -1,12 +1,17 @@
 import styled from 'styled-components'
-import tw from 'twin.macro'
+import { Box } from '../../../elements'
 
 
 
 
-export const MediaHeading = styled.h5.attrs({
-    className: 'media-box-heading'
-})`
 
+export const MediaHeading = styled(Box).attrs(props => ({
+    as: `h5`,
+    className: 'media-box-heading',
+    children: props.heading
+}))`
+
+    margin: auto;
+    padding-left: 0.5rem;
 
 `
