@@ -15,6 +15,7 @@ export const IndicatorWrapper = styled.div.attrs({
             lg:h-20
             h-10
             items-center
+            my-8
         `
     }
 

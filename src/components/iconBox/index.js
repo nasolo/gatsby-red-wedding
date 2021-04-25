@@ -9,10 +9,15 @@ import { MediaText } from './style/text'
 
 
 
-export const IconBox = ({icon, heading, description}) => {
+export const IconBox = ({
+    icon, 
+    heading, 
+    description, 
+    direction
+}) => {
 
     return (
-        <Media key={`${icon}-${heading}-mediabox`}>
+        <Media key={`${icon}-${heading}-mediabox`} direction={direction}>
             {icon && <Icon size={`large`} icon={icon} fill={'white'} m={`auto`}/>}
             <MediaBody>
                 {heading && <MediaHeading heading={heading} key={heading}/>}

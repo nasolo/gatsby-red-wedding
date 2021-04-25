@@ -1,9 +1,22 @@
 import React from 'react'
+import { Icon } from '../../../components'
+import {
+    FooterHeadingWrapper,
+    FooterHeading,
+    FooterCloseBtn
+} from '../style'
 
 
 
-const MobileMenu = ({filters}) => {
-    return <div>test</div>
+const MobileMenu = ({children, close}) => {
+
+    return(
+        <>
+            
+
+            {children}
+       </>
+    )
 }
 
 

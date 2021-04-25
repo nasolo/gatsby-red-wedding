@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import Img from "gatsby-image"
+import  Controls from './controls'
 
 
 import { IMAGE_EXTENSTIONS } from './patterns'
 import { VideoPlayer } from '../videoPlayer';
+
 
 
 
@@ -37,22 +39,22 @@ const isVideo = ({mimeType, mediaItemUrl}) => {
 
 export const Media = (props) => {
 
-    const { mediaItemUrl, mimeType, localFile, id, alt, poster} = props
+    const { mediaItemUrl, mimeType, localFile, id, alt, poster, getRef} = props
+
+    const shouldRenderVideo = isVideo({mediaItemUrl, mimeType})
+    const shouldRenderImage = isImage({mediaItemUrl, mimeType})
+    const fluidImage = shouldRenderImage && getGatsbyImageFluid(localFile)
 
     const renderSourceElement = () => {
 
         if(mediaItemUrl === undefined) return
 
-        const shouldRenderVideo = isVideo({mediaItemUrl, mimeType})
-        const shouldRenderImage = isImage({mediaItemUrl, mimeType})
-        const fluidImage = shouldRenderImage && getGatsbyImageFluid(localFile)
-
         if(shouldRenderVideo) {
-            return <VideoPlayer url={mediaItemUrl} id={id} poster={poster}/>
+            return <VideoPlayer url={mediaItemUrl} id={id} poster={poster} getRef={getRef}/>
         }
 
         if(shouldRenderImage) {
-            return <Img fluid={fluidImage} key={`gatsby-img-${id}`} alt={alt} className="h-full"/>
+            return <Img fluid={fluidImage} key={`gatsby-img-${id}`} alt={alt} className="h-full" getRef={getRef}/>
         }
 
         return "not media"
@@ -66,3 +68,5 @@ export const Media = (props) => {
   )
    
 }
+
+Media.controls = Controls

@@ -15,6 +15,7 @@ import handleOnDragEnd from './utils/handleOnDragEnd';
 
 export const Carousel = ({
     children,
+    initial = true,
     name = "carousel",
     pageSize = 9,
     exitBeforeEnter = false,
@@ -39,8 +40,6 @@ export const Carousel = ({
    //if children exits convert them to an Array
     const reactChildrenArray = React.Children.toArray(children)
     const childrenProps = reactChildrenArray.map(data => data.props)
-    
-
     
     //selector allCarouselData
     const carouselState = useSelector(state => makeGetAllCarouselData(state, name), shallowEqual)
@@ -94,7 +93,7 @@ export const Carousel = ({
 
     return (
        <CarouselContainer>
-             <AnimatePresence custom={direction} initial={false} exitBeforeEnter={exitBeforeEnter}>
+             <AnimatePresence custom={direction} initial={initial} exitBeforeEnter={exitBeforeEnter}>
                  <Drag
                     custom={direction}
                     variants={carouselVariants}

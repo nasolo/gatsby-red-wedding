@@ -3,12 +3,13 @@ import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit'
 import rootReducer from './rootReducer'
 import carousel from '../src/components/carousel/utils/redux/reducer'
 import videoReducer from '../src/components/videoPlayer/redux/reducer';
+
 //reducers
 
 const reducers = {
     rootReducer,
     carousel,
-    videoReducer
+    videoReducer,
 }
 
 

@@ -7,7 +7,7 @@ const lg = tw `
 
     lg:relative
     lg:justify-start
-
+    lg:w-1/12
     
 
 `
@@ -18,6 +18,8 @@ const style = tw`
     absolute
     space-x-2
     justify-end
+    w-10/12
+  
 
 `
 
@@ -28,7 +30,6 @@ export const ShareIconsWrapper = styled.div.attrs({
 })`
    ${lg};
    ${style};
-   width: 90%;
    top: 20%;
 
 

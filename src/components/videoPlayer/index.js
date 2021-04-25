@@ -8,17 +8,14 @@ import { PlayerContainer } from './style';
 import { Video } from './components/player';
 
 
-export const VideoPlayer = ({url, id, poster, player}) => {
+export const VideoPlayer = ({url, id, poster, getRef}) => {
 
     
-
     const dispatch = useDispatch()
     const actions = bindActions(dispatch)
     const videoPlayerProps = useSelector(state=>getPlayerProps(state, id), shallowEqual)
 
     const shouldRenderVideo = url === undefined || id === undefined
-
-    const handlePlayer = (player) => console.log(player)
 
     useEffect(
         () => {
@@ -31,7 +28,7 @@ export const VideoPlayer = ({url, id, poster, player}) => {
     return <PlayerContainer>
                 {videoPlayerProps === undefined
                 ? "Render Spinner"
-                : <Video config={videoPlayerProps} actions={actions} poster={poster} player={handlePlayer}/>
+                : <Video config={videoPlayerProps} actions={actions} poster={poster} getRef={getRef} />
 
                 }
             </PlayerContainer>

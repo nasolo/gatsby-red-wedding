@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import styled from 'styled-components'
 import { ICON } from '../../data/icons'
 import { variant } from 'styled-system'
@@ -8,7 +8,7 @@ import { themeGet } from '@styled-system/theme-get'
 
 
 const Svg = styled(Box).attrs(props => ({
-    className: `${props.icon}`,
+    className: `icon ${props.icon}`,
     viewBox: `${props.viewBox}`,
     as: 'svg'
 }))`
@@ -63,7 +63,7 @@ const iconArrtributes = icon => {
 
 
 
-export const Icon = ({icon, ...rest}) => {
+export const Icon = forwardRef(({icon, ...rest}, ref) => {
 
 
     const svg = ICON[icon.toUpperCase()] || ICON.WRONG
@@ -72,10 +72,10 @@ export const Icon = ({icon, ...rest}) => {
     const svgAttr = iconArrtributes(svg)
 
     return (
-        <Svg icon={icon} viewBox={viewBox} { ...rest }>
+        <Svg ref={ref} icon={icon} viewBox={viewBox} { ...rest }>
 
            {svgAttr}
 
         </Svg>
     )
-}
+})

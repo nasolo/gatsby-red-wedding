@@ -1,27 +1,12 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect } from 'react'
 import PlayerWrapper from '../style'
 import ReactPlayer from 'react-player'
 
-export const Video = ({config, actions, poster, player}) => {
+export const Video = ({config, actions, poster, getRef}) => {
 
-    const ref = useRef(null)
 
     const { id, url, playing, controls, light, volume, muted, loop, played, loaded, duration, playbackRate, pip } = config
     const {handlePlay,  handleEnablePIP, handleDisablePIP, handlePause, handleEnded, handleProgress, handleDuration, handlePlayPause} = actions
-    
-    useEffect(()=>{
-
-      const { current } = ref
-
-      const shouldUpdateRef = typeof player === 'function' && current
-
-      if(!shouldUpdateRef){
-        return ref
-      } else{
-        return player(id, current)
-      }
-    },[ref, player])
-  
     
   
   return (
@@ -29,7 +14,7 @@ export const Video = ({config, actions, poster, player}) => {
               className="react-player"
               key={id}
               wrapper={PlayerWrapper}
-              ref={ref}
+              ref={getRef}
               url={url}
               playing={playing}
               controls={controls}

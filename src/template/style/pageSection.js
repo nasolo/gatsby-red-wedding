@@ -9,6 +9,7 @@ ${tw`
     p-0
     m-0
     relative
+    overflow-hidden
 `}
 
 

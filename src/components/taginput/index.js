@@ -1,6 +1,8 @@
-import React, { useEffect, useRef } from 'react'
-
+import React, { useEffect, useRef, useState } from 'react'
+import { Popper } from '../popper'
 import TagsInput from './style/tagInput'
+import { PopoverMenu } from '../../elements';
+
 
 
 
@@ -8,63 +10,134 @@ import TagsInput from './style/tagInput'
 
 export const AutoComplete = React.forwardRef(function TagInput({
     
-    onClick, 
-    setTags, 
-    suggetions, 
-    suggetionsFound, 
-    setSuggetionsFound,
-    isOpen
-},ref){
+   
+    suggestionTags
     
+},ref){
+
+const [visible, setVisible] = useState(false)
+const [selectedTags, setSelectedTags] = useState([])
+const [results, setResults] = useState([])
+
 const input = useRef("")
 const SearchTagIcom = useRef("")
 
-const tags = ["adsfaws", "adfsadf"]
+const resetResults = () => setResults([])
+const resetInput = input => input.current.value = null
+const handleResults = suggestions => setResults([...suggestions])
+
+const show = () => setVisible(true)
+const hide = () => setVisible(false)
 
 
-const handleIsOpen = bol => console.log(bol)
-const autosuggetions = []
-const handleKeyUp = val => console.log(val)
-const removeUserTag = tag => console.log(tag)
+const getSuggestions = () => {
+    if(suggestionTags === undefined) return []
+
+    const rmDuplicates = new Set([...suggestionTags] || [])
+
+    return Array.from(rmDuplicates)
+}
 
 
-    useEffect(() => {
-        const userInput = input.current.value
-         userInput === "" && handleIsOpen(false)
-         autosuggetions.length < 1 && handleIsOpen(false)
-         userInput.length < 2 && handleIsOpen(false)
+const handleSelectedTags = (tag) => {
 
-         
+    if(tag === undefined || tag === null) return
 
-         userInput.length > 1 & isOpen === false & autosuggetions.length > 0 & autosuggetions !== [] && handleIsOpen(true)
+    const shouldAddTag = !selectedTags.includes(tag)
 
-    }, [input.current.value, autosuggetions, isOpen])
+     shouldAddTag && setSelectedTags([...selectedTags, tag])
+   
 
+}
+
+const removeUserTag = tag => {
+
+    if(tag === undefined || tag === null) return
+
+    const filterTag = selectedTags.filter(selectedTag => selectedTag !== tag)
+
+    return setSelectedTags([...filterTag])
+
+}
+
+const handleKeyUp = (event, input) => {
+
+    const autoCompleteSuggetions = getSuggestions()
+    const inputValue = input.current.value
+    
+
+    //validations
+    const isUserInputNull = inputValue === null
+    const inputValLength = input.current.value.length
+    const shouldUpdateSelectedTags = event.key === "Enter" || event.type === "click"
+    const shouldCheckAutoComplete = autoCompleteSuggetions.length > 0 &&  inputValLength > 2
+    const shouldResetResults = inputValLength <= 2
+
+      if(isUserInputNull) return false
+   
+      if( shouldUpdateSelectedTags ){
+          handleSelectedTags(inputValue)
+          return resetInput(input)
+      }
+
+      if(shouldResetResults) return resetResults()
+        
+      if(shouldCheckAutoComplete){
+        
+        const autoCompleteResults = autoCompleteSuggetions.filter(suggest => suggest.indexOf(inputValue.toLowerCase()) > -1)
+
+        return autoCompleteResults.length > 0 ? handleResults(autoCompleteResults) : resetResults()
+
+      }
+
+}
+
+
+
+useEffect(
+    ()=>{
+        results.length > 0 ? show() : hide()
+    },[results])
+
+const renderResults = (results) => {
+   return <PopoverMenu data={results} onClick={handleSelectedTags}/>
+}
   
     return(
 
-        <TagsInput className="tags-input" onClick={onClick} ref={ref}>
-            <TagsInput.Tags id="tags">
-                {tags.map((tag, index)=>(
-                    tag.length > 0 && <TagsInput.TagItem className="tag" key={index}>
-                    <TagsInput.TagTitle className="tag-title">
-                        {tag}
-                    </TagsInput.TagTitle>
-                    <TagsInput.CloseIcon className="tag-close-icon"
-                        onClick={()=> removeUserTag(tag)}
-                    >
+        <Popper
+            hide={hide}
+            show={show}
+            visible={visible}
+            html={
+                <>
+                    {renderResults(results)}
+                </>
+            }
+        >
+            <TagsInput className="tags-input" ref={ref}>
+                <TagsInput.Tags id="tags">
+                    {selectedTags.map((tag, index)=>(
+                        tag.length > 0 && <TagsInput.TagItem className="tag" key={index}>
+                        <TagsInput.TagTitle className="tag-title">
+                            {tag}
+                        </TagsInput.TagTitle>
+                        <TagsInput.CloseIcon className="tag-close-icon"
+                            onClick={()=> removeUserTag(tag)}
+                        >
                             x
-                    </TagsInput.CloseIcon>
-                    </TagsInput.TagItem>
-                ))}
-            </TagsInput.Tags>
-            
-            <TagsInput.Input
-            ref={input}
-            onKeyUp={(event)=>handleKeyUp(event, input)} 
-            placeholder="Press Enter to add tags"
-            />
-            <TagsInput.SearchIcon ref={SearchTagIcom} icon="magnifyingglass" onClick={(event)=>handleKeyUp(event, input)}/>
-        </TagsInput>
+                        </TagsInput.CloseIcon>
+                        </TagsInput.TagItem>
+                    ))}
+                </TagsInput.Tags>
+                
+                <TagsInput.Input
+                ref={input}
+                onKeyUp={(event)=>handleKeyUp(event, input)} 
+                placeholder="Press Enter to add tags"
+                />
+                <TagsInput.SearchIcon ref={SearchTagIcom} icon="magnifyingglass" onClick={(event)=>handleKeyUp(event, input)}/>
+            </TagsInput>        
+        </Popper>
     )
 })
