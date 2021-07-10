@@ -97,13 +97,8 @@ const handleKeyUp = (event, input) => {
 
 
 
-useEffect(
-    ()=>{
-        results.length > 0 ? show() : hide()
-
-        if(selectedTags.length > 0) handleTags(selectedTags)
-
-    },[results, selectedTags])
+useEffect(() => { results.length > 0 ? show() : hide() },[results] )
+useEffect(() => { handleTags(selectedTags) },[selectedTags] )
 
 const renderResults = (results) => {
    return <PopoverMenu data={results} onClick={handleSelectedTags}/>

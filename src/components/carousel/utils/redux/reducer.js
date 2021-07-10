@@ -68,28 +68,6 @@ const carouselReducer = createReducer(INITSTATE, {
                 slideDirection: index > activeIndex ? 1 : -1
             })
         }
-
-        
-    },
-    [setFilterTags]: (state, action) => {
-
-        const { payload: { name, filters }} = action
-        const currentState = current(state[name])
-
-        return {
-            ...currentState,
-            filters
-        }
-    },
-    [resetFilterTags]: (state, action) => {
-
-        const { payload: { name } } = action
-        const currentState = current(state[name])
-
-        return {
-            ...currentState,
-            filters: []
-        }
     }
 }
 )

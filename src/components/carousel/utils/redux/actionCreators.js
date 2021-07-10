@@ -9,8 +9,6 @@ export const bindedActions = dispatch => {
         prevItem,
         load,
         setActiveItem,
-        setFilterTags,
-        resetFilterTags
     }
 
     const boundActionCreators =  bindActionCreators({
@@ -18,8 +16,6 @@ export const bindedActions = dispatch => {
         prev: prevItem,
         load,
         setItem: setActiveItem,
-        addTags: setFilterTags,
-        resetTags: resetFilterTags
     }, dispatch)
 
     return boundActionCreators

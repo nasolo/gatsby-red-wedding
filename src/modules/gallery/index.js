@@ -40,33 +40,26 @@ export const Gallery = ({
     
     const [Slider, carouselState, controls] = useCarousel(pageName())
     const [footerState, setFooterState] = useState(false)
+    const [tags, setTags] = useState([])
     const videoPlayerRef = useRef(null)
 
-    const handleTags = (tags) => {
-        if(tags === undefined) return
-
-        const { addTags, resetTags } = controls
-        const name = pageName()
-
-
-        if( tags.length < 1 ) {
-            return resetTags({
-                name
-            })
-        }else {
-            return addTags ({
-                name,
-                filters: [...tags]
-            })
-        }
-
-    }
+    console.log(tags)
 
     const { current } = videoPlayerRef
     
     const hide = () => footerState && setFooterState(false)
     const show = () =>  !footerState && setFooterState(true)
 
+    const handleTags = tags => {
+
+        if(tags === undefined || !tags instanceof Array) return
+
+        const resetTags = () => setTags([])
+        const updateTags = () => setTags([...tags])
+
+        return tags.length < 1 ? resetTags() : updateTags(tags)
+
+    }
     const Controls = Media.controls
 
     const getGalleryMediaTags = blocks => {
