@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import PlayerWrapper from '../style'
 import ReactPlayer from 'react-player'
 
@@ -8,7 +8,8 @@ export const Video = ({config, actions, poster, getRef}) => {
     const { id, url, playing, controls, light, volume, muted, loop, played, loaded, duration, playbackRate, pip } = config
     const {handlePlay,  handleEnablePIP, handleDisablePIP, handlePause, handleEnded, handleProgress, handleDuration, handlePlayPause} = actions
     
-  
+    console.log(poster)
+
   return (
           <ReactPlayer
               className="react-player"

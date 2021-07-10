@@ -5,6 +5,7 @@ import { carouselSelector } from '../../components/carousel/utils/redux/selector
 import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 import { bindedActions } from '../../components/carousel/utils/redux/actionCreators'
 import { Carousel } from '../../components';
+import { activeVideo } from '../../components/videoPlayer/redux/selectors';
 
 
 
@@ -18,6 +19,7 @@ export const useCarousel = ( pageName ) => {
     const dispatch = useDispatch()
     const makeGetAllCarouselData = useMemo(carouselSelector, [])
     const state = useSelector(state => makeGetAllCarouselData(state, name), shallowEqual)
+    const activePlayer = useSelector( state => activeVideo( state ), shallowEqual )
 
     const actions = bindedActions(dispatch)
 
@@ -25,7 +27,7 @@ export const useCarousel = ( pageName ) => {
         name === "" && pageName && setName(pageName)
     }, state)
 
-    return [Carousel, state, actions]
+    return [ Carousel, { ...state, activePlayer}, actions ]
 }
 
 

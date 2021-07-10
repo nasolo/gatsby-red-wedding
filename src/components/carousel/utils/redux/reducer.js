@@ -1,5 +1,5 @@
 import { createReducer, current } from '@reduxjs/toolkit'
-import { nextItem,  prevItem, setActiveItem, load } from './actions'
+import { nextItem,  prevItem, setActiveItem, load, setFilterTags, resetFilterTags } from './actions'
 import { handleChildren } from '../handleChildren'
 
 const INITSTATE = { 
@@ -7,7 +7,8 @@ const INITSTATE = {
     index: 0,
     direction: 1,
     pageSize: 9,
-    isLoaded: false
+    isLoaded: false,
+    filters: []
 }
 
 const handleState = (state, action) => {
@@ -69,7 +70,28 @@ const carouselReducer = createReducer(INITSTATE, {
         }
 
         
-    }}
+    },
+    [setFilterTags]: (state, action) => {
+
+        const { payload: { name, filters }} = action
+        const currentState = current(state[name])
+
+        return {
+            ...currentState,
+            filters
+        }
+    },
+    [resetFilterTags]: (state, action) => {
+
+        const { payload: { name } } = action
+        const currentState = current(state[name])
+
+        return {
+            ...currentState,
+            filters: []
+        }
+    }
+}
 )
 
 const carousel = createReducer(INITSTATE, builder => {

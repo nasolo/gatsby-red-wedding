@@ -11,7 +11,8 @@ import { PopoverMenu } from '../../elements';
 export const AutoComplete = React.forwardRef(function TagInput({
     
    
-    suggestionTags
+    suggestionTags,
+    handleTags
     
 },ref){
 
@@ -86,7 +87,9 @@ const handleKeyUp = (event, input) => {
         
         const autoCompleteResults = autoCompleteSuggetions.filter(suggest => suggest.indexOf(inputValue.toLowerCase()) > -1)
 
-        return autoCompleteResults.length > 0 ? handleResults(autoCompleteResults) : resetResults()
+        const suggesstionFound = autoCompleteResults.length > 0
+
+        return suggesstionFound ? handleResults(autoCompleteResults) : resetResults()
 
       }
 
@@ -97,7 +100,10 @@ const handleKeyUp = (event, input) => {
 useEffect(
     ()=>{
         results.length > 0 ? show() : hide()
-    },[results])
+
+        if(selectedTags.length > 0) handleTags(selectedTags)
+
+    },[results, selectedTags])
 
 const renderResults = (results) => {
    return <PopoverMenu data={results} onClick={handleSelectedTags}/>

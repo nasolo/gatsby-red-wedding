@@ -33,7 +33,9 @@ export const Carousel = ({
         next,
         prev,
         setItem,
-        load
+        load,
+        addTags,
+        resetTags
     } = bindedActions(dispatch)
 
 

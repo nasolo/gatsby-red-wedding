@@ -1,4 +1,4 @@
-import { nextItem, prevItem, setActiveItem, load } from './actions'
+import { nextItem, prevItem, setActiveItem, load, setFilterTags, resetFilterTags } from './actions'
 import { bindActionCreators } from 'redux'
 
 
@@ -8,14 +8,18 @@ export const bindedActions = dispatch => {
         nextItem,
         prevItem,
         load,
-        setActiveItem
+        setActiveItem,
+        setFilterTags,
+        resetFilterTags
     }
 
     const boundActionCreators =  bindActionCreators({
         next: nextItem,
         prev: prevItem,
         load,
-        setItem: setActiveItem
+        setItem: setActiveItem,
+        addTags: setFilterTags,
+        resetTags: resetFilterTags
     }, dispatch)
 
     return boundActionCreators

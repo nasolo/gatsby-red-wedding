@@ -11,7 +11,7 @@ import styled from "styled-components";
 
 
 .react-player__shadow{
-      display: ${({light}) => light ? "none" : "inline"};
+      display: none;
       height: 100% !important;
       width: 100% !important;
       max-height: 12rem !important;

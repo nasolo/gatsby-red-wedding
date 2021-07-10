@@ -3,16 +3,20 @@ import { wrap } from '@popmotion/popcorn';
 
 export const handleChildren = ( settings ) =>{
     
-    const { data, index, slideDirection, pageSize } = settings
+    const { data, index, slideDirection, pageSize, filters } = settings
 
     
     
     if(data === undefined) return "no data was provided"
 
 
+    
+
+
     //validate if active index and carousel page size exits
     const pageSizeExist = pageSize === undefined
     const slideDirectionExist = slideDirection === undefined
+
     //If active index was passed to the function or set it to 0
     const activeIndex = index ? index : 0
 

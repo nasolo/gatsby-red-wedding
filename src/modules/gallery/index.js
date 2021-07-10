@@ -42,10 +42,27 @@ export const Gallery = ({
     const [footerState, setFooterState] = useState(false)
     const videoPlayerRef = useRef(null)
 
+    const handleTags = (tags) => {
+        if(tags === undefined) return
+
+        const { addTags, resetTags } = controls
+        const name = pageName()
+
+
+        if( tags.length < 1 ) {
+            return resetTags({
+                name
+            })
+        }else {
+            return addTags ({
+                name,
+                filters: [...tags]
+            })
+        }
+
+    }
+
     const { current } = videoPlayerRef
-
-
-    console.log(current)
     
     const hide = () => footerState && setFooterState(false)
     const show = () =>  !footerState && setFooterState(true)
@@ -54,20 +71,20 @@ export const Gallery = ({
 
     const getGalleryMediaTags = blocks => {
 
-        const allGalleryMediaAndTags = {
-            media: [],
-            tags: []
-        }
+        if(blocks === undefined) return
 
-        if(blocks !== undefined){ 
-                blocks.forEach(block => {
-                let {media, tags} = block
+  
+        const allGalleryMediaAndTags = []
 
-                media.map(media => allGalleryMediaAndTags.media.push(media))
-                tags.map(tags => allGalleryMediaAndTags.tags.push(tags))
-                
-            })
-        }
+        blocks.forEach(block => {
+            let {media, tags} = block
+
+            media.map(media => allGalleryMediaAndTags.push({
+                ...media,
+                tags: [...tags]
+            }))
+        })
+      
 
         return allGalleryMediaAndTags
 
@@ -100,9 +117,13 @@ export const Gallery = ({
     }
 
     const renderAutoComplete = () => {
-       const { tags } = getGalleryMediaTags(blocks)
-       const listOfTags = tags.map(tag => tag.name.toLowerCase())
-        return <AutoComplete suggestionTags={listOfTags}/>
+        
+        const mediaAndTags = getGalleryMediaTags(blocks)
+        const listOfTags = []
+        mediaAndTags.forEach(media => media.tags.map(tag => listOfTags.push(tag.name.toLowerCase())))
+        
+
+        return <AutoComplete handleTags={handleTags} suggestionTags={listOfTags}/>
 
     }
 
@@ -127,9 +148,12 @@ export const Gallery = ({
     const renderMedia = (blocks) => {
 
         if(blocks === undefined) return <div>Error Component Goes Here</div>
-        const galleryMedia = blocks.map((pageMedia, i) => {
-            let { media } = pageMedia
-            return media.map((media, i) => <Media {...media} key={`${media.id} - ${i}` } getRef={videoPlayerRef}/>)
+
+        const mediaAndTags = getGalleryMediaTags(blocks)
+
+        const galleryMedia = mediaAndTags.map((media, i) => {
+            
+            return  <Media {...media} key={`${media.id} - ${i}` } getRef={videoPlayerRef}/>
         })
         return galleryMedia
     }
