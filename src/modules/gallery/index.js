@@ -40,10 +40,8 @@ export const Gallery = ({
     
     const [Slider, carouselState, controls] = useCarousel(pageName())
     const [footerState, setFooterState] = useState(false)
-    const [tags, setTags] = useState([])
+    const [filterTags, setFilterTags] = useState([])
     const videoPlayerRef = useRef(null)
-
-    console.log(tags)
 
     const { current } = videoPlayerRef
     
@@ -54,8 +52,8 @@ export const Gallery = ({
 
         if(tags === undefined || !tags instanceof Array) return
 
-        const resetTags = () => setTags([])
-        const updateTags = () => setTags([...tags])
+        const resetTags = () => setFilterTags([])
+        const updateTags = () => setFilterTags([...tags])
 
         return tags.length < 1 ? resetTags() : updateTags(tags)
 
@@ -142,9 +140,15 @@ export const Gallery = ({
 
         if(blocks === undefined) return <div>Error Component Goes Here</div>
 
-        const mediaAndTags = getGalleryMediaTags(blocks)
+        const media = getGalleryMediaTags(blocks)
+        const shouldFilterMedia = filterTags.length < 1
+        const filterGalleryMediaByTags = ( media ) => media.filter( ({ tags }) => tags.find(tag => filterTags.includes(tag.name)))
 
-        const galleryMedia = mediaAndTags.map((media, i) => {
+        const filteredTags = shouldFilterMedia ? media : filterGalleryMediaByTags(media)
+
+        console.log(filteredTags)
+
+        const galleryMedia = filteredTags.map((media, i) => {
             
             return  <Media {...media} key={`${media.id} - ${i}` } getRef={videoPlayerRef}/>
         })
